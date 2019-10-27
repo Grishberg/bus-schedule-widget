@@ -1,7 +1,7 @@
 package com.grishberg.busschedulewidget.schedule.domain;
 
-public interface Location
+public interface LocationResult
 {
-	float x();
-	float y();
+	double x();
+	double y();
 }
