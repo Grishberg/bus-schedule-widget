@@ -1,5 +1,7 @@
 package com.grishberg.busschedulewidget.schedule.domain;
 
+import java.util.List;
+
 public interface BusSchedule {
-    public int[] findNearestBus(LocationResult l);
+    List<Integer> findNearestBus(LocationResult l);
 }

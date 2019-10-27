@@ -1,10 +1,11 @@
 package com.grishberg.busschedulewidget.schedule.data;
 
 import com.grishberg.busschedulewidget.schedule.domain.BusSchedule;
-import com.grishberg.busschedulewidget.schedule.domain.GeoLocation;
 import com.grishberg.busschedulewidget.schedule.domain.GeoLocations;
 import com.grishberg.busschedulewidget.schedule.domain.LocationResult;
 import com.grishberg.busschedulewidget.schedule.domain.LogOutput;
+
+import java.util.List;
 
 public class BusScheduleRepository implements BusSchedule {
     private static final String TAG = "BusScheduleRepository";
@@ -12,16 +13,22 @@ public class BusScheduleRepository implements BusSchedule {
     private final GeoLocations geoLocations;
     private final TimeProvider timeProvider;
 
-    public BusScheduleRepository(LogOutput l, GeoLocations geoLocations, TimeProvider timeProvider) {
+    public BusScheduleRepository(LogOutput l,
+                                 GeoLocations geoLocations,
+                                 TimeProvider timeProvider) {
         log = l;
         this.geoLocations = geoLocations;
         this.timeProvider = timeProvider;
     }
 
     @Override
-    public int[] findNearestBus(LocationResult l) {
-        GeoLocation geoLoc = geoLocations.findNearestLocation(l);
+    public List<Integer> findNearestBus(LocationResult l) {
+        BusScheduleForLocation geoLoc = geoLocations.findNearestLocation(l);
         log.d(TAG, "find nearest bus " + geoLoc);
-        return null;
+        List<Integer> timeLeftForNextBus = geoLoc.getTimeLeftForNextBus(timeProvider.getTime());
+        for (int minutesLeft : timeLeftForNextBus) {
+            log.d(TAG, "times left for next bus " + minutesLeft);
+        }
+        return timeLeftForNextBus;
     }
 }

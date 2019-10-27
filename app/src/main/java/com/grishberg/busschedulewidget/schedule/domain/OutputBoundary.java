@@ -1,5 +1,7 @@
 package com.grishberg.busschedulewidget.schedule.domain;
 
+import java.util.List;
+
 public interface OutputBoundary {
-    void updateNextTime(int[] minutesBeforeArrived);
+    void updateNextTime(List<Integer> minutesBeforeArrived);
 }

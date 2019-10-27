@@ -1,5 +1,7 @@
 package com.grishberg.busschedulewidget.schedule.domain;
 
+import java.util.List;
+
 public class Interactor {
     private static final String TAG = "inter";
     private final LogOutput log;
@@ -21,7 +23,7 @@ public class Interactor {
         gpsLocation.requestLocation(locationReceivedAction);
     }
 
-    private void onBusScheduleReceived(int[] durationsInMinutes) {
+    private void onBusScheduleReceived(List<Integer> durationsInMinutes) {
         log.d(TAG, "on schedule received " + durationsInMinutes);
         outputBoundary.updateNextTime(durationsInMinutes);
     }

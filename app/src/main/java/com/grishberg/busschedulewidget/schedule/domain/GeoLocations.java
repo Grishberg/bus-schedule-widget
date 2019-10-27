@@ -1,5 +1,7 @@
 package com.grishberg.busschedulewidget.schedule.domain;
 
+import com.grishberg.busschedulewidget.schedule.data.BusScheduleForLocation;
+
 public interface GeoLocations {
-    GeoLocation findNearestLocation(LocationResult l);
+    BusScheduleForLocation findNearestLocation(LocationResult l);
 }

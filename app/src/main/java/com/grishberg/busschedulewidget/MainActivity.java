@@ -10,18 +10,17 @@ import android.widget.Toast;
 
 import com.github.grishberg.consoleview.LoggerImpl;
 import com.grishberg.busschedulewidget.schedule.data.BusScheduleRepository;
-import com.grishberg.busschedulewidget.schedule.data.GeoLocationContainer;
+import com.grishberg.busschedulewidget.schedule.data.BusScheduleStorage;
 import com.grishberg.busschedulewidget.schedule.data.GeoLocationsRepository;
 import com.grishberg.busschedulewidget.schedule.data.GpsLocationRepository;
 import com.grishberg.busschedulewidget.schedule.data.TimeProvider;
 import com.grishberg.busschedulewidget.schedule.domain.BusSchedule;
-import com.grishberg.busschedulewidget.schedule.domain.GeoLocation;
 import com.grishberg.busschedulewidget.schedule.domain.GeoLocations;
 import com.grishberg.busschedulewidget.schedule.domain.GpsLocation;
 import com.grishberg.busschedulewidget.schedule.domain.Interactor;
 import com.grishberg.busschedulewidget.schedule.domain.OutputBoundary;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends Activity implements OutputBoundary {
 
@@ -43,13 +42,9 @@ public class MainActivity extends Activity implements OutputBoundary {
         ConsoleLogger log = new ConsoleLogger(new LoggerImpl());
 
         TimeProvider t = new TimeProvider();
-        ArrayList<GeoLocation> points = new ArrayList<>();
-        // benua
-        points.add(new GeoLocationContainer(59.9590719, 30.4055854));
-        // pl lenina
-        points.add(new GeoLocationContainer(59.9540323, 30.3562962));
 
-        GeoLocations geoLocations = new GeoLocationsRepository(log, points);
+        BusScheduleStorage scheduleStorage = new BusScheduleStorage();
+        GeoLocations geoLocations = new GeoLocationsRepository(log, scheduleStorage.requestSchedule());
         BusSchedule scheduler = new BusScheduleRepository(log, geoLocations, t);
         GpsLocation gpsLocation = new GpsLocationRepository(log, this.getApplicationContext());
         interactor = new Interactor(log, scheduler, gpsLocation, this);
@@ -58,7 +53,7 @@ public class MainActivity extends Activity implements OutputBoundary {
     }
 
     @Override
-    public void updateNextTime(int[] minutesBeforeArrived) {
+    public void updateNextTime(List<Integer> minutesBeforeArrived) {
         Toast.makeText(this, "received next time", Toast.LENGTH_SHORT).show();
     }
 

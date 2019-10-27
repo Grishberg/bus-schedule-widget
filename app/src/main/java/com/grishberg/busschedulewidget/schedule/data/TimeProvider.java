@@ -1,9 +1,9 @@
 package com.grishberg.busschedulewidget.schedule.data;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class TimeProvider {
-    public Date getTime() {
-        return new Date();
+    public Calendar getTime() {
+        return Calendar.getInstance();
     }
 }

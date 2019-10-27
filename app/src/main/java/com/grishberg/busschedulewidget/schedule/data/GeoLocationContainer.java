@@ -4,9 +4,11 @@ import com.grishberg.busschedulewidget.schedule.domain.GeoLocation;
 import com.grishberg.busschedulewidget.schedule.domain.LocationResult;
 
 public class GeoLocationContainer implements GeoLocation {
+    public Locations location;
     private final double x, y;
 
-    public GeoLocationContainer(double x, double y) {
+    public GeoLocationContainer(Locations location, double x, double y) {
+        this.location = location;
         this.x = x;
         this.y = y;
     }
@@ -20,6 +22,6 @@ public class GeoLocationContainer implements GeoLocation {
 
     @Override
     public String toString() {
-        return "GeoLocationContainer(x=" + x + ", y=" + y + ")";
+        return "GeoLocationContainer(location=" + location + ", x=" + x + ", y=" + y + ")";
     }
 }
