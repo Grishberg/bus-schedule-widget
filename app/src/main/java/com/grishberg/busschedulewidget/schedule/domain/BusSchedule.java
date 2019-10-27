@@ -1,6 +1,5 @@
 package com.grishberg.busschedulewidget.schedule.domain;
 
-public interface BusSchedule
-{
-	public int[] findNearestBus(LocationResult l);
+public interface BusSchedule {
+    public int[] findNearestBus(LocationResult l);
 }

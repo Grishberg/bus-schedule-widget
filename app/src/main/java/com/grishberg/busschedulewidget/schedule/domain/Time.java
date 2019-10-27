@@ -1,9 +1,9 @@
 package com.grishberg.busschedulewidget.schedule.domain;
-import java.util.*;
 
-public class Time
-{
-	Date getCurrentTime(){
-		return new Date();
-	}
+import java.util.Date;
+
+public class Time {
+    Date getCurrentTime() {
+        return new Date();
+    }
 }

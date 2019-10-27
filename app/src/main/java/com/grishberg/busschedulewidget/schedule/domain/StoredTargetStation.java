@@ -1,5 +1,4 @@
 package com.grishberg.busschedulewidget.schedule.domain;
 
-public interface StoredTargetStation
-{
+public interface StoredTargetStation {
 }
