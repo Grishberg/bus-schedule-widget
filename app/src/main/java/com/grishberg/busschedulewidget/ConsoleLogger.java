@@ -15,6 +15,7 @@ public class ConsoleLogger implements LogOutput {
     @Override
     public void d(String t, String m) {
         log.d(t, m);
+		Log.d(t, m);
     }
 
     @Override

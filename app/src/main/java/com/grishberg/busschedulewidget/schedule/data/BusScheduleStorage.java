@@ -3,6 +3,7 @@ package com.grishberg.busschedulewidget.schedule.data;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import com.grishberg.busschedulewidget.schedule.domain.*;
 
 /**
  * Has bus schedule for location.
@@ -20,12 +21,12 @@ public class BusScheduleStorage {
     private final ArrayList<ScheduleReceivedAction> actions = new ArrayList<>();
     private final List<BusScheduleForLocation> locations = new ArrayList<>();
 
-    public BusScheduleStorage() {
-        locations.add(new BusScheduleForLocation(
-                new GeoLocationContainer(Locations.BENUA, 59.9590719, 30.4055854),
+    public BusScheduleStorage(LogOutput log) {
+        locations.add(new BusScheduleForLocation(log,
+                new GeoLocationContainer(log, Locations.BENUA, 59.9590719, 30.4055854),
                 BENUA_TIMES));
-        locations.add(new BusScheduleForLocation(
-                new GeoLocationContainer(Locations.LENINA_SQUARE, 59.9540323, 30.3562962),
+        locations.add(new BusScheduleForLocation(log,
+                new GeoLocationContainer(log, Locations.LENINA_SQUARE, 59.9540323, 30.3562962),
                 LENINA_SQUARE_TIMES));
     }
 

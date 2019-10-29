@@ -49,10 +49,8 @@ public class GpsLocationRepository implements GpsLocation {
 
         @Override
         public void onLocationChanged(android.location.Location loc) {
-            String longitude = "Longitude: " + loc.getLongitude();
-            log.d(TAG, longitude);
-            String latitude = "Latitude: " + loc.getLatitude();
-            Log.v(TAG, latitude);
+            String msg = "Long: " + loc.getLongitude() +", Lat: " + loc.getLatitude();
+            Log.v(TAG, msg);
 
             /*------- To get city name from coordinates -------- */
             String cityName = null;
@@ -68,9 +66,9 @@ public class GpsLocationRepository implements GpsLocation {
             } catch (IOException e) {
                 log.e(TAG, "geo error", e);
             }
-            String s = longitude + "\n" + latitude + "\n\nMy Current City is: "
+            String s = msg+ "\n\nMy Current City is: "
                     + cityName;
-            log.d(TAG, "on location found:" + s);
+            log.d(TAG, "location found:" + s);
 
             action.onGpsLocationReceived(new GpsLocationResult(loc.getLatitude(),
                     loc.getLongitude()));

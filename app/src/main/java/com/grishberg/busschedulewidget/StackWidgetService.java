@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+import android.util.*;
 
 public class StackWidgetService extends RemoteViewsService {
     @Override
@@ -18,32 +19,28 @@ public class StackWidgetService extends RemoteViewsService {
 }
 
 class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    private static final int mCount = 10;
+	private static final String TAG = "WidgetFactory";
+    private static final int mCount = 3;
     private List<WidgetItem> mWidgetItems = new ArrayList<WidgetItem>();
     private Context mContext;
     private int mAppWidgetId;
+	private final InteractorProvider interactorProvider;
+	private final ArrayList<Integer> times = new ArrayList();
 
     public StackRemoteViewsFactory(Context context, Intent intent) {
         mContext = context;
         mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
+		interactorProvider = new InteractorProvider(context);
     }
 
     public void onCreate() {
         // In onCreate() you setup any connections / cursors to your data source. Heavy lifting,
         // for example downloading or creating content etc, should be deferred to onDataSetChanged()
         // or getViewAt(). Taking more than 20 seconds in this call will result in an ANR.
+		
         for (int i = 0; i < mCount; i++) {
             mWidgetItems.add(new WidgetItem(i + "!"));
-        }
-
-        // We sleep for 3 seconds here to show how the empty view appears in the interim.
-        // The empty view is set in the StackWidgetProvider and should be a sibling of the
-        // collection view.
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 
@@ -58,12 +55,14 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     public RemoteViews getViewAt(int position) {
+		Log.d(TAG, "getViewAt "+ position);
         // position will always range from 0 to getCount() - 1.
 
         // We construct a remote views item based on our widget item xml file, and set the
         // text based on the position.
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget_item);
-        rv.setTextViewText(R.id.widget_item, mWidgetItems.get(position).text);
+		String title = position < times.size() ? times.get(position).toString() : "none";
+        rv.setTextViewText(R.id.widget_item, title);
 
         // Next, we set a fill-intent which will be used to fill-in the pending intent template
         // which is set on the collection view in StackWidgetProvider.
@@ -113,5 +112,10 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         // from the network, etc., it is ok to do it here, synchronously. The widget will remain
         // in its current state while work is being done here, so you don't need to worry about
         // locking up the widget.
+		Log.d(TAG, "onDataSetChanged");
+		times.clear();
+		List<Integer> nextTimeToBus = interactorProvider.getInteractor().getNextTimeToBus();
+		Log.d(TAG, "received size = "+ nextTimeToBus.size());
+		times.addAll(nextTimeToBus);
     }
 }

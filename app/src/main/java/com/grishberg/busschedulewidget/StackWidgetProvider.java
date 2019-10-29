@@ -12,6 +12,8 @@ import android.widget.Toast;
 public class StackWidgetProvider extends AppWidgetProvider {
     public static final String TOAST_ACTION = "com.example.android.stackwidget.TOAST_ACTION";
     public static final String EXTRA_ITEM = "com.example.android.stackwidget.EXTRA_ITEM";
+	
+	public static final String UPDATE_ACTION = "com.github.grishberg.buswidget.UPDATE_ACTION";
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {

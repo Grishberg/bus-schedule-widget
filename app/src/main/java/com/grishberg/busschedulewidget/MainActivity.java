@@ -21,6 +21,8 @@ import com.grishberg.busschedulewidget.schedule.domain.Interactor;
 import com.grishberg.busschedulewidget.schedule.domain.OutputBoundary;
 
 import java.util.List;
+import android.content.*;
+import java.util.*;
 
 public class MainActivity extends Activity implements OutputBoundary {
 
@@ -43,7 +45,7 @@ public class MainActivity extends Activity implements OutputBoundary {
 
         TimeProvider t = new TimeProvider();
 
-        BusScheduleStorage scheduleStorage = new BusScheduleStorage();
+        BusScheduleStorage scheduleStorage = new BusScheduleStorage(log);
         GeoLocations geoLocations = new GeoLocationsRepository(log, scheduleStorage.requestSchedule());
         BusSchedule scheduler = new BusScheduleRepository(log, geoLocations, t);
         GpsLocation gpsLocation = new GpsLocationRepository(log, this.getApplicationContext());
@@ -55,6 +57,9 @@ public class MainActivity extends Activity implements OutputBoundary {
     @Override
     public void updateNextTime(List<Integer> minutesBeforeArrived) {
         Toast.makeText(this, "received next time", Toast.LENGTH_SHORT).show();
+		Intent update = new Intent(StackWidgetProvider.UPDATE_ACTION);
+		update.putIntegerArrayListExtra(StackWidgetProvider.EXTRA_ITEM, 
+			new ArrayList<>(minutesBeforeArrived));
     }
 
     @Override
