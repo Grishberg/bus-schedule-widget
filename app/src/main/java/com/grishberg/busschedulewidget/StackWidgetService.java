@@ -34,6 +34,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 		interactorProvider = new InteractorProvider(context);
     }
 
+    @Override
     public void onCreate() {
         // In onCreate() you setup any connections / cursors to your data source. Heavy lifting,
         // for example downloading or creating content etc, should be deferred to onDataSetChanged()
@@ -44,16 +45,19 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         }
     }
 
+    @Override
     public void onDestroy() {
         // In onDestroy() you should tear down anything that was setup for your data source,
         // eg. cursors, connections, etc.
         mWidgetItems.clear();
     }
 
+    @Override
     public int getCount() {
         return mCount;
     }
 
+    @Override
     public RemoteViews getViewAt(int position) {
 		Log.d(TAG, "getViewAt "+ position);
         // position will always range from 0 to getCount() - 1.
@@ -87,24 +91,29 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         return rv;
     }
 
+    @Override
     public RemoteViews getLoadingView() {
         // You can create a custom loading view (for instance when getViewAt() is slow.) If you
         // return null here, you will get the default loading view.
         return null;
     }
 
+    @Override
     public int getViewTypeCount() {
         return 1;
     }
 
+    @Override
     public long getItemId(int position) {
         return position;
     }
 
+    @Override
     public boolean hasStableIds() {
         return true;
     }
 
+    @Override
     public void onDataSetChanged() {
         // This is triggered when you call AppWidgetManager notifyAppWidgetViewDataChanged
         // on the collection view corresponding to this factory. You can do heaving lifting in
